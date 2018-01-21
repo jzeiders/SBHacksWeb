@@ -16,7 +16,7 @@ export default class GalleryRouter extends React.Component<{}, {}> {
   render() {
     return (
       <div>
-        <Header />The Gallery
+        <Header />
         <Any />
         <FixedButton>
           <CreateCodeSnippet />

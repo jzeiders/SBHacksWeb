@@ -9,6 +9,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { reactReduxFirebase, firebaseReducer } from "react-redux-firebase";
 import * as firebase from "firebase";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import darkBaseTheme from "material-ui/styles/baseThemes/darkBaseTheme";
 
 const config = {
   apiKey: "AIzaSyDtUEkf6AGXzX1wOrC0r55EfgkwngVydNI",
@@ -47,7 +49,7 @@ const store = createStoreWithDevTools(rootReducer, initialState);
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
       <App />
     </MuiThemeProvider>
   </Provider>,

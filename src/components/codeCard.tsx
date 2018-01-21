@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Card, CardActions, CardMedia, CardTitle } from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 
 type Props = {
   title: string;
@@ -10,8 +10,13 @@ type Props = {
 };
 const Container = styled.div`
   height: 250px;
-  width: 200px;
+  width: 220px;
   margin: 20px;
+`;
+const SpaceBetween = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 8px;
 `;
 
 export default class CodeCard extends React.Component<Props, {}> {
@@ -30,8 +35,14 @@ export default class CodeCard extends React.Component<Props, {}> {
             />
           </CardMedia>
           <CardActions>
-            <FlatButton label="Edit" onClick={() => this.props.edit()} />
-            <FlatButton label="Delete" onClick={() => this.props.delete()} />
+            <SpaceBetween>
+              <RaisedButton label="Edit" onClick={() => this.props.edit()} />
+              <RaisedButton
+                primary={true}
+                label="Delete"
+                onClick={() => this.props.delete()}
+              />
+            </SpaceBetween>
           </CardActions>
         </Card>
       </Container>

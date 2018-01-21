@@ -1,24 +1,36 @@
 import * as React from "react";
 import styled from "styled-components";
-import AceEditor from "react-ace";
+import Ace from "react-ace";
+import * as brace from "brace";
+import "brace/mode/javascript";
+import "brace/theme/github";
 
 const Container = styled.div`
   width: 100%;
+  padding-top: 15px;
   display: flex;
   justify-content: center;
 `;
-
-export default class CodeEditor extends React.Component<{}, {}> {
+type Props = {
+  code: string;
+  onChange: any;
+};
+console.log(brace); // Lol need to use brace somewhere
+// Silly typescript
+export default class CodeEditor extends React.Component<Props, {}> {
   render() {
     return (
       <Container>
-        <AceEditor
+        <Ace
           mode="javascript"
-          theme="solarized_dark"
+          theme="github"
+          name="editor"
           fontSize={14}
           showPrintMargin={true}
           showGutter={true}
           highlightActiveLine={true}
+          value={this.props.code}
+          onChange={value => this.props.onChange(value)}
           width={"800px"}
           setOptions={{
             enableBasicAutocompletion: false,
