@@ -1,7 +1,7 @@
 import * as React from "react";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
-import { withFirebase } from "react-redux-firebase";
+import { firebaseConnect } from "react-redux-firebase";
 
 type Props = {
   firebase: any;
@@ -12,7 +12,7 @@ class CreateCodeSnippet extends React.Component<Props, {}> {
     super(props);
   }
   createCodeSnippet() {
-    this.props.firebase.push("code", { title: "unnamed", code: "" });
+    this.props.firebase.push("code", { title: "Untitled", code: "" });
   }
   render() {
     return (
@@ -23,4 +23,4 @@ class CreateCodeSnippet extends React.Component<Props, {}> {
   }
 }
 
-export default withFirebase(CreateCodeSnippet);
+export default firebaseConnect()(CreateCodeSnippet);

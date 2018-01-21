@@ -1,13 +1,12 @@
 import * as React from "react";
 import CodeEditor from "../components/codeEditor";
-import { withRouter } from "react-router-dom";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { match } from "react-router";
-import { firebaseConnect, withFirebase, isLoaded } from "react-redux-firebase";
+import { isLoaded } from "react-redux-firebase";
 import styled from "styled-components";
 import RaisedButton from "material-ui/RaisedButton";
 import { testFunction } from "../api/firebase";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firebaseConnect } from "react-redux-firebase";
 
 const Toolbar = styled.div`
   display: flex;
@@ -22,7 +21,6 @@ const Container = styled.div`
 `;
 
 type Props = {
-  match: match<any>;
   snippets: {
     title: string;
     code: string;
@@ -35,18 +33,18 @@ const style = {
 
 class CodeEditorContainer extends React.Component<Props, {}> {
   executeCode() {
-    let id = this.props.match.params.id;
+    let id = window.location.pathname.split("/")[2];
     let { snippets } = this.props;
     testFunction(snippets[id].code).then(console.log);
   }
   getCode() {
-    let id = this.props.match.params.id;
+    let id = window.location.pathname.split("/")[2];
     let { snippets } = this.props;
     return !isLoaded(snippets) ? "" : snippets[id].code;
   }
 
   onChange(value: string) {
-    let id = this.props.match.params.id;
+    let id = window.location.pathname.split("/")[2];
     this.props.firebase.set(`code/${id}/code`, value);
   }
   render() {
@@ -69,13 +67,9 @@ class CodeEditorContainer extends React.Component<Props, {}> {
   }
 }
 
-export default withRouter(
-  withFirebase(
-    compose(
-      firebaseConnect((props: any) => [{ path: "code" }]),
-      connect((state: any, props) => ({
-        snippets: state.firebase.data.code
-      }))
-    )(CodeEditorContainer)
-  )
-);
+export default compose(
+  firebaseConnect(["code"]),
+  connect((state: any) => ({
+    snippets: state.firebase.data.code
+  }))
+)(CodeEditorContainer) as any;

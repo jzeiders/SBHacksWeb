@@ -1,28 +1,25 @@
 import * as React from "react";
 import styled from "styled-components";
+import { isLoaded, isEmpty } from "react-redux-firebase";
+import CodeCard from "../components/codeCard";
+import { RouteComponentProps } from "react-router";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import {
-  firebaseConnect,
-  isLoaded,
-  withFirebase,
-  isEmpty
-} from "react-redux-firebase";
-import CodeCard from "../components/codeCard";
-import { withRouter } from "react-router-dom";
+import { firebaseConnect } from "react-redux-firebase";
+import history from "../history";
 
-type Props = {
+interface Props extends RouteComponentProps<any> {
   snippets: {
     title: string;
     code: string;
   }[];
   firebase: any;
-  history: any;
-};
+}
 
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   padding: 20px;
 `;
 
@@ -31,7 +28,7 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
     super(props);
   }
   editSnippet(key: string) {
-    this.props.history.push(`/editor/${key}`);
+    history.push(`/editor/${key}`);
   }
   deleteSnippet(key: string) {
     this.props.firebase.remove("code/" + key);
@@ -46,6 +43,7 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
       return (
         <CodeCard
           key={key}
+          link={key}
           title={this.props.snippets[key].title}
           edit={() => this.editSnippet(key)}
           delete={() => this.deleteSnippet(key)}
@@ -57,13 +55,9 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
     return <Container> {this.generateCards()}</Container>;
   }
 }
-export default withRouter(
-  withFirebase(
-    compose(
-      firebaseConnect((props: any) => [{ path: "code" }]),
-      connect((state: any, props) => ({
-        snippets: state.firebase.data.code
-      }))
-    )(CodeGalleryGrid)
-  )
-);
+export default compose(
+  firebaseConnect(["code"]),
+  connect((state: any) => ({
+    snippets: state.firebase.data.code
+  }))
+)(CodeGalleryGrid) as any;

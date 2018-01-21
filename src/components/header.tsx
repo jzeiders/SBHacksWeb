@@ -1,10 +1,12 @@
 import * as React from "react";
 import styled from "styled-components";
 import IconButton from "material-ui/IconButton";
-import { withRouter, RouteComponentProps } from "react-router";
+import BackArrow from "material-ui/svg-icons/navigation/arrow-back";
+
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firebaseConnect, withFirebase, isLoaded } from "react-redux-firebase";
+import { firebaseConnect, isLoaded } from "react-redux-firebase";
+import history from "../history";
 
 const StatusBar = styled.div`
   width: 100%;
@@ -30,8 +32,19 @@ const TitleInput = styled.input`
   border: none;
   color: white;
   outline: none;
+  text-align: center;
 `;
-interface Props extends RouteComponentProps<any> {
+const Full = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+const FixWidth = styled.div`
+  width: 100px;
+  display: flex;
+  align-items: center;
+`;
+interface Props {
   snippets: {
     title: string;
     code: string;
@@ -43,26 +56,31 @@ class Header extends React.Component<Props, {}> {
     super(props);
   }
   getTitle() {
-    let id = this.props.match.params.id;
+    let id = window.location.pathname.split("/")[2];
     let { snippets } = this.props;
     return !isLoaded(snippets) ? "" : snippets[id].title;
   }
   updateTitle(event: React.ChangeEvent<HTMLInputElement>) {
-    let id = this.props.match.params.id;
+    let id = window.location.pathname.split("/")[2];
     this.props.firebase.set(`code/${id}/title`, event.target.value);
   }
   getTitleContent() {
-    if (this.props.location.pathname.search("/editor") !== -1) {
+    if (window.location.pathname.search("/editor") !== -1) {
       return (
-        <div>
-          <IconButton onClick={() => this.props.history.goBack} key={1} />
+        <Full>
+          <FixWidth>
+            <IconButton onClick={() => history.goBack()} key={1}>
+              <BackArrow />
+            </IconButton>
+          </FixWidth>
           <TitleInput
             key={2}
             type="text"
             value={this.getTitle()}
             onChange={event => this.updateTitle(event)}
           />
-        </div>
+          <FixWidth />
+        </Full>
       );
     } else {
       return <Title> Code Snippets </Title>;
@@ -77,13 +95,9 @@ class Header extends React.Component<Props, {}> {
     );
   }
 }
-export default withRouter(
-  withFirebase(
-    compose(
-      firebaseConnect((props: any) => [{ path: "code" }]),
-      connect((state: any, props) => ({
-        snippets: state.firebase.data.code
-      }))
-    )(Header)
-  )
-);
+export default compose(
+  firebaseConnect((props: any) => [{ path: "code" }]),
+  connect((state: any, props) => ({
+    snippets: state.firebase.data.code
+  }))
+)(Header) as any;

@@ -11,13 +11,13 @@ const FixedButton = styled.div`
   z-index: 10;
 `;
 
-const Any = CodeGalleryGrid as any;
-export default class GalleryRouter extends React.Component<{}, {}> {
+type Props = {};
+class GalleryRouter extends React.Component<Props, {}> {
   render() {
     return (
       <div>
         <Header />
-        <Any />
+        <CodeGalleryGrid />
         <FixedButton>
           <CreateCodeSnippet />
         </FixedButton>
@@ -25,3 +25,5 @@ export default class GalleryRouter extends React.Component<{}, {}> {
     );
   }
 }
+
+export default GalleryRouter;

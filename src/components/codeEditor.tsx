@@ -31,7 +31,7 @@ export default class CodeEditor extends React.Component<Props, {}> {
           highlightActiveLine={true}
           value={this.props.code}
           onChange={value => this.props.onChange(value)}
-          width={"800px"}
+          width={"650px"}
           setOptions={{
             enableBasicAutocompletion: false,
             enableLiveAutocompletion: false,

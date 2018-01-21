@@ -7,6 +7,7 @@ type Props = {
   title: string;
   edit: Function;
   delete: Function;
+  link: string;
 };
 const Container = styled.div`
   height: 250px;

@@ -1,13 +1,19 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import Editor from "./routes/editor";
 import Gallery from "./routes/gallery";
+import history from "./history";
 
-class App extends React.Component {
+interface Props {}
+
+class App extends React.Component<Props, {}> {
+  constructor(props: Props) {
+    super(props);
+  }
   render() {
     return (
       <div className="App">
-        <Router>
+        <Router history={history}>
           <div>
             <Route path="/editor/:id" exact={true} component={Editor} />
             <Route exact={true} path="/" component={Gallery} />

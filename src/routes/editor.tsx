@@ -8,8 +8,8 @@ const Body = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-export default class EditorRoute extends React.Component<{}, {}> {
+type Props = {};
+export default class EditorRoute extends React.Component<Props, {}> {
   render() {
     return (
       <div>
