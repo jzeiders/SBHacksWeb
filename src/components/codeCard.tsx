@@ -8,9 +8,10 @@ type Props = {
   edit: Function;
   delete: Function;
   link: string;
+  i: number;
 };
 const Container = styled.div`
-  height: 250px;
+  height: 300px;
   width: 220px;
   margin: 20px;
 `;
@@ -19,6 +20,12 @@ const SpaceBetween = styled.div`
   justify-content: space-between;
   margin-left: 8px;
 `;
+const backgrounds = [
+  "http://ginva.com/wp-content/uploads/2016/08/ginva_2016-08-02_02-30-54.jpg",
+  "https://s.tmimgcdn.com/blog/wp-content/uploads/2016/04/1-9-2.jpg?x47994",
+  "https://graphicflip.com/wp-content/uploads/2016/02/5-backgrounds.jpg",
+  "https://cms-assets.tutsplus.com/uploads/users/41/posts/25951/image/material-design-background-2.jpg"
+];
 
 export default class CodeCard extends React.Component<Props, {}> {
   render() {
@@ -27,11 +34,8 @@ export default class CodeCard extends React.Component<Props, {}> {
         <Card>
           <CardMedia overlay={<CardTitle title={this.props.title} />}>
             <img
-              src={
-                "https://store-images.s-microsoft.com/image/apps.55709." +
-                "13510798887526153.501bcecc-53ba-446b-85a8-8051bfc3ffa7.0a" +
-                "24dcf4-a792-4b8c-9ef6-117729993fcb?w=180&h=180&q=60"
-              }
+              height={150}
+              src={backgrounds[this.props.i % backgrounds.length]}
               alt=""
             />
           </CardMedia>

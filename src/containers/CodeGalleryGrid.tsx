@@ -29,6 +29,7 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
   }
   editSnippet(key: string) {
     history.push(`/editor/${key}`);
+    setTimeout(() => window.location.reload(), 500);
   }
   deleteSnippet(key: string) {
     this.props.firebase.remove("code/" + key);
@@ -39,7 +40,7 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
         ? Object.keys(this.props.snippets)
         : [];
     console.log(keys);
-    return keys.map(key => {
+    return keys.map((key, i) => {
       return (
         <CodeCard
           key={key}
@@ -47,6 +48,7 @@ class CodeGalleryGrid extends React.Component<Props, {}> {
           title={this.props.snippets[key].title}
           edit={() => this.editSnippet(key)}
           delete={() => this.deleteSnippet(key)}
+          i={i}
         />
       );
     });

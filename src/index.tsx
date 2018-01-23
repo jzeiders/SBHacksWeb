@@ -4,7 +4,7 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, compose } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+// import { composeWithDevTools } from "redux-devtools-extension";
 import { reactReduxFirebase, firebaseReducer } from "react-redux-firebase";
 import * as firebase from "firebase";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -33,9 +33,7 @@ const createStoreWithFirebase = compose(
   reactReduxFirebase(firebase, rrfConfig)
 )(createStore);
 
-const createStoreWithDevTools = compose(composeWithDevTools())(
-  createStoreWithFirebase
-);
+const createStoreWithDevTools = compose(createStoreWithFirebase);
 
 // Add firebase to reducers
 const rootReducer = combineReducers({

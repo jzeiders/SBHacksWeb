@@ -33,18 +33,21 @@ const style = {
 
 class CodeEditorContainer extends React.Component<Props, {}> {
   executeCode() {
-    let id = window.location.pathname.split("/")[2];
+    let paths = window.location.hash.split("/");
+    let id = paths[paths.length - 1];
     let { snippets } = this.props;
     testFunction(snippets[id].code).then(console.log);
   }
   getCode() {
-    let id = window.location.pathname.split("/")[2];
+    let paths = window.location.hash.split("/");
+    let id = paths[paths.length - 1];
     let { snippets } = this.props;
     return !isLoaded(snippets) ? "" : snippets[id].code;
   }
 
   onChange(value: string) {
-    let id = window.location.pathname.split("/")[2];
+    let paths = window.location.hash.split("/");
+    let id = paths[paths.length - 1];
     this.props.firebase.set(`code/${id}/code`, value);
   }
   render() {

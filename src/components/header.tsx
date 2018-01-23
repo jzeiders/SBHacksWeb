@@ -56,20 +56,26 @@ class Header extends React.Component<Props, {}> {
     super(props);
   }
   getTitle() {
-    let id = window.location.pathname.split("/")[2];
+    let paths = window.location.hash.split("/");
+    let id = paths[paths.length - 1];
     let { snippets } = this.props;
     return !isLoaded(snippets) ? "" : snippets[id].title;
   }
   updateTitle(event: React.ChangeEvent<HTMLInputElement>) {
-    let id = window.location.pathname.split("/")[2];
+    let paths = window.location.hash.split("/");
+    let id = paths[paths.length - 1];
     this.props.firebase.set(`code/${id}/title`, event.target.value);
   }
+  goBack() {
+    history.goBack();
+    setTimeout(() => window.location.reload(), 500);
+  }
   getTitleContent() {
-    if (window.location.pathname.search("/editor") !== -1) {
+    if (window.location.hash.search("/editor") !== -1) {
       return (
         <Full>
           <FixWidth>
-            <IconButton onClick={() => history.goBack()} key={1}>
+            <IconButton onClick={() => this.goBack()} key={1}>
               <BackArrow />
             </IconButton>
           </FixWidth>
